@@ -79,15 +79,24 @@ async function main() {
     next();
   });
 
+  // Home route (VERY IMPORTANT)
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
+
   // ================= ROUTES =================
   app.use("/", userRoutes);
   app.use("/listings", listingsRoutes);
   app.use("/listings/:id/reviews", reviewRoutes);
 
   // ================= ERROR =================
-  // ================= ERROR =================
 app.use((req, res, next) => {
   next(new ExpressError(404, "Page Not Found"));
+});
+
+app.use((err, req, res, next) => {
+  let { statusCode = 500, message = "Something went wrong" } = err;
+  res.status(statusCode).render("error.ejs", { message });
 });
 
 app.use((err, req, res, next) => {
