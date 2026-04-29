@@ -1,0 +1,280 @@
+<% layout("layouts/boilerplate") %> 
+
+<style>
+/* FILTER CONTAINER */
+#filters-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 10px 0;
+}
+
+/* FILTER SCROLL */
+#filters {
+  display: flex;
+  gap: 2rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  flex: 1;
+}
+
+#filters::-webkit-scrollbar {
+  display: none;
+}
+
+/* FILTER ITEM */
+.filters {
+  text-align: center;
+  min-width: 90px;
+  opacity: 0.7;
+  transition: 0.25s;
+  flex-shrink: 0;
+}
+
+.filters i {
+  font-size: 1.3rem;
+  color: #555;
+}
+
+.filters p {
+  font-size: 0.75rem;
+  margin-top: 4px;
+}
+
+/* HOVER */
+.filters:hover {
+  opacity: 1;
+  transform: translateY(-3px);
+  cursor: pointer;
+}
+
+/* ACTIVE */
+.filters.active {
+  opacity: 1;
+  border-bottom: 2px solid black;
+}
+
+/* ARROWS */
+.scroll-btn {
+  border: none;
+  background: white;
+  border-radius: 50%;
+  padding: 8px 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  cursor: pointer;
+}
+
+/* TOGGLE */
+.filters-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* SWITCH */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input { display: none; }
+
+.slider {
+  position: absolute;
+  background: #ccc;
+  border-radius: 20px;
+  inset: 0;
+  transition: 0.3s;
+}
+
+.slider:before {
+  content: "";
+  position: absolute;
+  height: 16px; width: 16px;
+  left: 2px; bottom: 2px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+input:checked + .slider {
+  background: black;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+/* MOBILE */
+@media (max-width:768px){
+  .scroll-btn,.filters-toggle{display:none;}
+}
+</style>
+
+
+<!-- 🔥 FILTER BAR -->
+<div id="filters-container">
+
+  <button class="scroll-btn left">
+    <i class="fa-solid fa-chevron-left"></i>
+  </button>
+
+  <div id="filters">
+
+    <div class="filters" data-category="all">
+      <i class="fa-solid fa-fire"></i><p>Trending</p>
+    </div>
+
+    <div class="filters" data-category="rooms">
+      <i class="fa-solid fa-bed"></i><p>Rooms</p>
+    </div>
+
+    <div class="filters" data-category="mountain">
+      <i class="fa-solid fa-mountain"></i><p>Mountains</p>
+    </div>
+
+    <div class="filters" data-category="beach">
+      <i class="fa-solid fa-water"></i><p>Beach</p>
+    </div>
+
+    <div class="filters" data-category="city">
+      <i class="fa-solid fa-city"></i><p>City</p>
+    </div>
+
+    <div class="filters" data-category="forest">
+      <i class="fa-solid fa-tree"></i><p>Forest</p>
+    </div>
+
+    <div class="filters" data-category="luxury">
+  <i class="fa-solid fa-gem"></i><p>Luxury</p>
+</div>
+
+<div class="filters" data-category="villa">
+  <i class="fa-solid fa-house"></i><p>Villas</p>
+</div>
+
+<div class="filters" data-category="camping">
+  <i class="fa-solid fa-campground"></i><p>Camping</p>
+</div>
+
+<div class="filters" data-category="desert">
+  <i class="fa-solid fa-sun"></i><p>Desert</p>
+</div>
+
+<div class="filters" data-category="island">
+  <i class="fa-solid fa-umbrella-beach"></i><p>Island</p>
+</div>
+
+<div class="filters" data-category="heritage">
+  <i class="fa-solid fa-landmark"></i><p>Heritage</p>
+</div>
+
+<div class="filters" data-category="farm">
+  <i class="fa-solid fa-tractor"></i><p>Farm Stay</p>
+</div>
+
+<div class="filters" data-category="couple">
+  <i class="fa-solid fa-heart"></i><p>Couples</p>
+</div>
+
+<div class="filters" data-category="family">
+  <i class="fa-solid fa-people-roof"></i><p>Family</p>
+</div>
+
+<div class="filters" data-category="budget">
+  <i class="fa-solid fa-wallet"></i><p>Budget</p>
+</div>
+
+  </div>
+
+  <button class="scroll-btn right">
+    <i class="fa-solid fa-chevron-right"></i>
+  </button>
+
+  <div class="filters-toggle">
+    <label class="switch">
+      <input type="checkbox" id="taxToggle">
+      <span class="slider"></span>
+    </label>
+    <span>Include GST</span>
+  </div>
+
+</div>
+
+
+<!-- 🔥 LISTINGS -->
+<div class="row mt-4">
+
+<% for(let listing of allListings){ %>
+
+  <div class="col-lg-4 col-md-6 mb-4">
+
+    <a href="/listings/<%= listing._id %>" class="listing-link">
+
+      <div class="card listing-card">
+
+        <img src="<%= listing.image.url %>" class="card-img-top" style="height:250px; object-fit:cover;">
+
+        <div class="card-body">
+          <b><%= listing.title %></b><br>
+
+          ₹ 
+          <span class="amount" data-price="<%= listing.price %>">
+            <%= listing.price.toLocaleString("en-IN") %>
+          </span> /night
+
+        </div>
+
+      </div>
+
+    </a>
+
+  </div>
+
+<% } %>
+
+</div>
+
+
+<script>
+const params = new URLSearchParams(window.location.search);
+
+// ACTIVE FILTER
+const activeCategory = params.get("category");
+
+document.querySelectorAll(".filters").forEach(el => {
+  if(el.dataset.category === activeCategory){
+    el.classList.add("active");
+  }
+
+  el.addEventListener("click", ()=>{
+    params.set("category", el.dataset.category);
+    window.location.href = "/listings?" + params.toString();
+  });
+});
+
+// TAX
+document.getElementById("taxToggle").addEventListener("change", (e)=>{
+  document.querySelectorAll(".amount").forEach(el=>{
+    let price = parseInt(el.dataset.price);
+
+    if(e.target.checked){
+      el.innerText = Math.round(price * 1.18).toLocaleString("en-IN");
+    } else {
+      el.innerText = price.toLocaleString("en-IN");
+    }
+  });
+});
+
+// SCROLL
+document.querySelector(".left").onclick = ()=>{
+  document.getElementById("filters").scrollBy({left:-300,behavior:"smooth"});
+};
+
+document.querySelector(".right").onclick = ()=>{
+  document.getElementById("filters").scrollBy({left:300,behavior:"smooth"});
+};
+</script>

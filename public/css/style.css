@@ -1,0 +1,154 @@
+
+
+/* body*/
+body{
+    font-family: "Plus Jakarta Sans", sans-serif  !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container{
+    flex: 1;
+}
+
+/*Navbar */
+.navbar{
+    height: 5rem;
+    background-color: white;
+}
+
+.fa-compass{
+    color: #fe424d;
+    font-size: 2rem;
+}
+
+.nav-link{
+    color:#222 !important;
+}a:hover {
+ text-decoration: underline;
+}
+
+/* Footer */
+
+.f-info {
+    height: 8rem;
+    background-color: #ebebeb;
+
+    display: flex;
+    flex-direction: column;   /* ⭐ vertical layout */
+    justify-content: center;  /* center vertically */
+    align-items: center;      /* center horizontally */
+
+    gap: 10px;                /* spacing between items */
+    text-align: center;
+}
+
+.f-info-links a {
+    text-decoration: none;
+    color: #222222;
+    
+}
+
+.f-info-links a:hover {
+    text-decoration: underline;
+}
+
+.f-info-socials i {
+    font-size: 1.3rem;
+    margin: 0 8px;
+}
+
+/* Card */
+.listing-card{
+    border: none !important;
+    margin-bottom: 2rem;
+}
+
+.card-img-top{
+    border-radius: 1rem !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+
+.card-body{
+    padding: 0 !important;
+}
+
+.card-text p{
+    font-weight: 400 !important;
+}
+
+.listing-link{
+   text-decoration: none; 
+}
+
+/* Card effet*/
+.card-img-overlay{
+    opacity: 0;
+}
+.card-img-overlay:hover{
+    opacity: 0.2;
+    background-color: white;
+}
+
+/* New page*/
+.add-btn{
+    
+    border: none !important;
+}
+
+/* Show Page */
+
+.show-img {
+    height: 300px;
+    object-fit: cover;
+    border-radius: 12px 12px 0 0;
+}
+
+.listing-card {
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.listing-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Buttons */
+
+.btn-outline-dark:hover {
+    background-color: black;
+    color: white;
+}
+
+.btn-danger {
+    background-color: #fe424d;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #e0313c;
+}
+
+/* review*/
+
+.review-card {
+  border-radius: 12px;
+  transition: all 0.25s ease-in-out;
+}
+
+.review-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+}
+
+.card-title {
+  font-weight: 600;
+}
+
+.card-text {
+  font-size: 0.95rem;
+} 

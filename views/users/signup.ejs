@@ -1,0 +1,55 @@
+
+<% layout("/layouts/boilerplate") %>
+
+<div class="row justify-content-center mt-4">
+    
+  <div class="col-lg-6 col-md-8">
+
+      <h3 class="mb-4 text-center">Create Account</h3>
+ 
+    <form action="/signup" method="POST" novalidate class="needs-validation" novalidate>
+
+      <!-- USERNAME -->
+      <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input 
+          type="text" 
+          name="username" 
+          id="username"
+          placeholder="Enter username" 
+          class="form-control" 
+          required>
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+
+      <!-- EMAIL -->
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input 
+          type="email" 
+          name="email" 
+          placeholder="Enter email" 
+          class="form-control" 
+          required>
+        <div class="invalid-feedback">Please enter a valid email</div>
+      </div>
+
+      <!-- PASSWORD -->
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input 
+          type="password" 
+          name="password" 
+          placeholder="Enter password" 
+          class="form-control" 
+          required>
+        <div class="invalid-feedback">Password is required</div>
+      </div>
+
+      <!-- BUTTON -->
+      <button class="btn btn-dark w-100">Sign Up</button>
+
+    </form>
+
+  </div>
+</div>

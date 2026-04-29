@@ -1,0 +1,214 @@
+
+
+<nav class="navbar navbar-expand-md bg-light border-bottom sticky-top shadow-sm">
+  <div class="container-fluid px-3">
+
+    <!-- 🔥 LOGO -->
+    <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="/listings">
+      <i class="fa-regular fa-compass fs-4"></i>
+      <span class="d-none d-sm-inline">Wanderlust</span>
+    </a>
+
+    <!-- 🔥 MOBILE SEARCH -->
+    <div class="mobile-search d-md-none" id="mobileSearch">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <span>Where to?</span>
+    </div>
+
+    <!-- 🔥 TOGGLER -->
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+
+      <!-- 🔥 LEFT -->
+      <div class="navbar-nav me-md-3">
+        <a class="nav-link fw-semibold" href="/listings">Explore</a>
+      </div>
+
+      <!-- 🔥 CENTER SEARCH -->
+      <div class="airbnb-search mx-auto" id="searchBox">
+
+        <!-- 🔍 INPUT -->
+        <input type="text" id="searchInput" placeholder="Search destinations..." />
+
+        <span class="mini-item">Map area</span>
+        <div class="divider"></div>
+
+        <span class="mini-item">Any week</span>
+        <div class="divider"></div>
+
+        <span class="mini-item text-muted">Add guests</span>
+
+        <button class="search-btn" id="searchBtn">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+
+      </div>
+
+      <!-- 🔥 RIGHT -->
+      <div class="navbar-nav ms-auto align-items-md-center gap-2">
+        <a class="nav-link fw-semibold" href="/listings/new">Airbnb your home</a>
+
+        <% if(!currUser){ %>
+          <a class="btn btn-outline-dark rounded-pill px-3" href="/signup">Sign up</a>
+          <a class="btn btn-dark rounded-pill px-3" href="/login">Log in</a>
+        <% } else { %>
+          <a class="btn btn-outline-danger rounded-pill px-3" href="/logout">Logout</a>
+        <% } %>
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+<style>
+
+/* 🔥 DESKTOP SEARCH */
+.airbnb-search {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 50px;
+  padding: 6px 10px;
+  gap: 8px;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: 0.3s;
+}
+
+.airbnb-search:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+/* 🔍 INPUT */
+.airbnb-search input {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  width: 0;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+/* active */
+.airbnb-search.active input {
+  width: 160px;
+  opacity: 1;
+}
+
+/* items */
+.mini-item {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 20px;
+}
+
+.mini-item:hover {
+  background: #f7f7f7;
+}
+
+/* divider */
+.divider {
+  width: 1px;
+  height: 18px;
+  background: #ddd;
+}
+
+/* button */
+.search-btn {
+  background: #ff385c;
+  border: none;
+  color: white;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+/* 🔥 MOBILE SEARCH */
+.mobile-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 30px;
+  padding: 6px 12px;
+  font-size: 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  cursor: pointer;
+}
+
+/* 📱 RESPONSIVE */
+@media (max-width: 768px) {
+  .airbnb-search {
+    display: none;
+  }
+
+  .mobile-search {
+    flex: 1;
+    margin: 0 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mobile-search span {
+    font-size: 13px;
+  }
+}
+
+</style>
+
+<script>
+const searchBox = document.getElementById("searchBox");
+const searchInput = document.getElementById("searchInput");
+const searchBtn = document.getElementById("searchBtn");
+const mobileSearch = document.getElementById("mobileSearch");
+
+/* open input */
+searchBox.addEventListener("click", () => {
+  searchBox.classList.add("active");
+  searchInput.focus();
+});
+
+/* ENTER */
+searchInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") handleSearch();
+});
+
+/* button */
+searchBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  handleSearch();
+});
+
+/* mobile */
+mobileSearch.addEventListener("click", () => {
+  const query = prompt("Search destination:");
+  if (query) {
+    window.location.href = `/listings?search=${encodeURIComponent(query)}`;
+  }
+});
+
+/* function */
+function handleSearch() {
+  const query = searchInput.value.trim();
+
+  if (!query) {
+    searchInput.focus();
+    return;
+  }
+
+  window.location.href = `/listings?search=${encodeURIComponent(query)}`;
+}
+</script>
