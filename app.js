@@ -1,5 +1,3 @@
-
-
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
@@ -51,7 +49,7 @@ async function main() {
   // ================= SESSION =================
   app.use(
     session({
-      secret: process.env.SECRET ,
+      secret: process.env.SECRET || "mysupersecret",
       resave: false,
       saveUninitialized: false,
       cookie: {
@@ -79,10 +77,10 @@ async function main() {
     next();
   });
 
-  // Home route (VERY IMPORTANT)
-app.get("/", (req, res) => {
-  res.redirect("/listings");
-});
+  // ================= HOME ROUTE =================
+  app.get("/", (req, res) => {
+    res.redirect("/listings");
+  });
 
   // ================= ROUTES =================
   app.use("/", userRoutes);
@@ -90,19 +88,9 @@ app.get("/", (req, res) => {
   app.use("/listings/:id/reviews", reviewRoutes);
 
   // ================= ERROR =================
-app.use((req, res, next) => {
-  next(new ExpressError(404, "Page Not Found"));
-});
-
-app.use((err, req, res, next) => {
-  let { statusCode = 500, message = "Something went wrong" } = err;
-  res.status(statusCode).render("error.ejs", { message });
-});
-
-app.use((err, req, res, next) => {
-  let { statusCode = 500, message = "Something went wrong" } = err;
-  res.status(statusCode).render("error.ejs", { message });
-});
+  app.use((req, res, next) => {
+    next(new ExpressError(404, "Page Not Found"));
+  });
 
   app.use((err, req, res, next) => {
     let { statusCode = 500, message = "Something went wrong" } = err;
