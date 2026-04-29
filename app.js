@@ -1,5 +1,3 @@
-
-
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
@@ -12,7 +10,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 
 const ExpressError = require("./utils/ExpressError");
-const session = require("express-session"); // ✅ only this
+const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -36,17 +34,24 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
+// ================= PORT =================
+const PORT = process.env.PORT || 8080;
+
 // ================= DB CONNECT =================
 async function main() {
+  if (!dbUrl) {
+    throw new Error("❌ ATLASDB_URL is missing");
+  }
+
   await mongoose.connect(dbUrl);
   console.log("✅ Connected to MongoDB");
 
-  // 🔥 SIMPLE SESSION (NO MongoStore)
+  // ================= SESSION =================
   app.use(
     session({
-      secret: process.env.SECRET,
+      secret: process.env.SECRET ,
       resave: false,
-      saveUninitialized: true,
+      saveUninitialized: false,
       cookie: {
         maxAge: 7 * 24 * 60 * 60 * 1000,
         httpOnly: true,
@@ -78,7 +83,7 @@ async function main() {
   app.use("/listings/:id/reviews", reviewRoutes);
 
   // ================= ERROR =================
-  app.use((req, res, next) => {
+  app.all("*", (req, res, next) => {
     next(new ExpressError(404, "Page Not Found"));
   });
 
@@ -88,9 +93,12 @@ async function main() {
   });
 
   // ================= SERVER =================
-  app.listen(8080, () => {
-    console.log("🚀 Server running on port 8080");
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
   });
 }
 
-main().catch((err) => console.log("❌ DB Error:", err));
+// ================= RUN =================
+main().catch((err) => {
+  console.log("❌ DB Error:", err);
+});
